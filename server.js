@@ -30,12 +30,14 @@ io.sockets.on("connection", function (socket) {
 
   //Defining Socket Connections
   socket.on("message", function (message, room) {
+    console.log("server used for message");
     log("Client said: ", message);
     // for a real app, would be room-only (not broadcast)
     socket.in(room).emit("message", message, room);
   });
 
   socket.on("create or join", function (room, clientName) {
+    console.log("server used for create");
     log("Received request to create or join room " + room);
 
     var clientsInRoom = io.sockets.adapter.rooms.get(room);
@@ -63,11 +65,13 @@ io.sockets.on("connection", function (socket) {
   });
 
   socket.on("creatorname", (room,client) => {
+    console.log("server used for creatorname");
     // to all clients in room1 except the sender
     socket.to(room).emit("mynameis",client);
   });
 
   socket.on("ipaddr", function () {
+    console.log("server used for ipaddr");
     var ifaces = os.networkInterfaces();
     for (var dev in ifaces) {
       ifaces[dev].forEach(function (details) {
@@ -79,6 +83,7 @@ io.sockets.on("connection", function (socket) {
   });
 
   socket.on("bye", function () {
+    console.log("server used for bye");
     console.log("received bye");
   });
 });
